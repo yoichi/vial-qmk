@@ -1,0 +1,7 @@
+VIA_ENABLE = yes
+VIAL_ENABLE = yes
+
+OS_DETECTION_ENABLE = yes
+
+# Enabled for QK_MAGIC_*
+MAGIC_ENABLE = yes
