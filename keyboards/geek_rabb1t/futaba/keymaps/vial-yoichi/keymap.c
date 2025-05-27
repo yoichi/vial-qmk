@@ -12,6 +12,8 @@ enum my_keycodes {
   TGL_H_SCL,
   EN_3_TAP,
   DIS_3_TAP,
+  ZOOM_IN,
+  ZOOM_OUT,
   PAD_3_RGHT,
   PAD_3_LEFT,
   PAD_3_DOWN,
@@ -54,8 +56,8 @@ _______,S(KC_INT1),S(KC_INT3),S(KC_GRV),S(KC_LBRC),S(KC_RBRC),                  
     ),
     [4] = LAYOUT(
         _______, _______, _______, EN_3_TAP , _______, _______, TGL_V_SCL, _______, TGL_H_SCL, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, DIS_3_TAP, _______, _______,                                _______, _______, _______, _______, _______, _______ ,
-        _______, _______, _______, _______  , _______, _______,                                _______, _______, _______, _______, _______, _______ ,
+        QK_BOOT, _______, _______, DIS_3_TAP, _______, _______,                                _______, _______, _______, _______, _______,  EE_CLR,
+        _______, _______, _______, _______  , _______, _______,                                _______, _______, AG_LSWP, AG_LNRM, _______, _______,
                  _______, _______, _______  , _______, _______,            DF(0)  ,            _______, _______, _______, _______, _______
                , _______, _______, _______  , _______, _______, _______, _______, _______
     )
@@ -65,7 +67,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [0] =   { ENCODER_CCW_CW(KC_UP, KC_DOWN) },
     [1] =   { ENCODER_CCW_CW(KC_LEFT, KC_RGHT) },
     [2] =   { ENCODER_CCW_CW(KC_KB_VOLUME_UP, KC_KB_VOLUME_DOWN) },
-    [3] =   { ENCODER_CCW_CW(KC_UP, KC_DOWN) },
+    [3] =   { ENCODER_CCW_CW(ZOOM_OUT, ZOOM_IN) },
     [4] =   { ENCODER_CCW_CW(KC_UP, KC_DOWN) }
 };
 
@@ -156,6 +158,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         trackpad_config.disable_3fingers_tap = true;
         update_trackpad_config(trackpad_config);
+      }
+      return false;
+
+    case ZOOM_IN:
+      {
+	uint16_t code;
+	if (detected_host_os() == OS_WINDOWS) {
+	  code = C(KC_EQL);
+	} else {
+	  code = G(KC_EQL);
+	}
+	if (record->event.pressed) {
+	  register_code16(code);
+	} else {
+	  unregister_code16(code);
+	}
+      }
+      return false;
+    case ZOOM_OUT:
+      {
+	uint16_t code;
+	if (detected_host_os() == OS_WINDOWS) {
+	  code = C(KC_MINS);
+	} else {
+	  code = G(KC_MINS);
+	}
+	if (record->event.pressed) {
+	  register_code16(code);
+	} else {
+	  unregister_code16(code);
+	}
       }
       return false;
 
