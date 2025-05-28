@@ -84,21 +84,22 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
 #if defined(MAGIC_ENABLE)
     keymap_config.raw = eeconfig_read_keymap();
 #endif
-    switch (detected_os) {
-        case OS_WINDOWS:
+    if (detected_os == OS_WINDOWS) {
+        trackpad_config.reverse_vertical_scroll = false;
+        trackpad_config.reverse_horizontal_scroll = true;
+        update_trackpad_config(trackpad_config);
 #if defined(MAGIC_ENABLE)
-            keymap_config.swap_lalt_lgui = true;
-            keymap_config.swap_ralt_rgui = false;
+        keymap_config.swap_lalt_lgui = true;
+        keymap_config.swap_ralt_rgui = false;
 #endif
-            break;
-        case OS_MACOS:
+    } else {
+        trackpad_config.reverse_vertical_scroll = true;
+        trackpad_config.reverse_horizontal_scroll = false;
+        update_trackpad_config(trackpad_config);
 #if defined(MAGIC_ENABLE)
-            keymap_config.swap_lalt_lgui = false;
-            keymap_config.swap_ralt_rgui = false;
+        keymap_config.swap_lalt_lgui = false;
+        keymap_config.swap_ralt_rgui = false;
 #endif
-            break;
-        default:
-            break;
     }
 #if defined(MAGIC_ENABLE)
     eeconfig_update_keymap(keymap_config.raw);
@@ -163,154 +164,154 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case ZOOM_IN:
       {
-	uint16_t code;
-	if (detected_host_os() == OS_WINDOWS) {
-	  code = C(KC_EQL);
-	} else {
-	  code = G(KC_EQL);
-	}
-	if (record->event.pressed) {
-	  register_code16(code);
-	} else {
-	  unregister_code16(code);
-	}
+        uint16_t code = G(KC_EQL);
+#ifdef OS_DETECTION_ENABLE
+        if (detected_host_os() == OS_WINDOWS) {
+          code = C(KC_EQL);
+        }
+#endif
+        if (record->event.pressed) {
+          register_code16(code);
+        } else {
+          unregister_code16(code);
+        }
       }
       return false;
     case ZOOM_OUT:
       {
-	uint16_t code;
-	if (detected_host_os() == OS_WINDOWS) {
-	  code = C(KC_MINS);
-	} else {
-	  code = G(KC_MINS);
-	}
-	if (record->event.pressed) {
-	  register_code16(code);
-	} else {
-	  unregister_code16(code);
-	}
+        uint16_t code = G(KC_MINS);
+#ifdef OS_DETECTION_ENABLE
+        if (detected_host_os() == OS_WINDOWS) {
+          code = C(KC_MINS);
+        }
+#endif
+        if (record->event.pressed) {
+          register_code16(code);
+        } else {
+          unregister_code16(code);
+        }
       }
       return false;
 
     case PAD_3_RGHT:
       {
-	uint16_t code;
-	if (detected_host_os() == OS_WINDOWS) {
-	  code = KC_BTN4;
-	} else {
-	  code = C(KC_LEFT);
-	}
-	if (record->event.pressed) {
-	  register_code16(code);
-	} else {
-	  unregister_code16(code);
-	}
+        uint16_t code = C(KC_LEFT);
+#ifdef OS_DETECTION_ENABLE
+        if (detected_host_os() == OS_WINDOWS) {
+          code = KC_BTN4;
+        }
+#endif
+        if (record->event.pressed) {
+          register_code16(code);
+        } else {
+          unregister_code16(code);
+        }
       }
       return false;
     case PAD_3_LEFT:
       {
-	uint16_t code;
-	if (detected_host_os() == OS_WINDOWS) {
-	  code = KC_BTN5;
-	} else {
-	  code = C(KC_RGHT);
-	}
-	if (record->event.pressed) {
-	  register_code16(code);
-	} else {
-	  unregister_code16(code);
-	}
+        uint16_t code = C(KC_RGHT);
+#ifdef OS_DETECTION_ENABLE
+        if (detected_host_os() == OS_WINDOWS) {
+          code = KC_BTN5;
+        }
+#endif
+        if (record->event.pressed) {
+          register_code16(code);
+        } else {
+          unregister_code16(code);
+        }
       }
       return false;
     case PAD_3_DOWN:
       {
-	uint16_t code;
-	if (detected_host_os() == OS_WINDOWS) {
-	  code = G(KC_D);
-	} else {
-	  code = C(KC_DOWN);
-	}
-	if (record->event.pressed) {
-	  register_code16(code);
-	} else {
-	  unregister_code16(code);
-	}
+        uint16_t code = C(KC_DOWN);
+#ifdef OS_DETECTION_ENABLE
+        if (detected_host_os() == OS_WINDOWS) {
+          code = G(KC_D);
+        }
+#endif
+        if (record->event.pressed) {
+          register_code16(code);
+        } else {
+          unregister_code16(code);
+        }
       }
       return false;
     case PAD_3_UP:
       {
-	uint16_t code;
-	if (detected_host_os() == OS_WINDOWS) {
-	  code = G(KC_TAB);
-	} else {
-	  code = C(KC_UP);
-	}
-	if (record->event.pressed) {
-	  register_code16(code);
-	} else {
-	  unregister_code16(code);
-	}
+        uint16_t code = C(KC_UP);
+#ifdef OS_DETECTION_ENABLE
+        if (detected_host_os() == OS_WINDOWS) {
+          code = G(KC_TAB);
+        }
+#endif
+        if (record->event.pressed) {
+          register_code16(code);
+        } else {
+          unregister_code16(code);
+        }
       }
       return false;
 
     case PAD_4_RGHT:
       {
-	uint16_t code;
-	if (detected_host_os() == OS_WINDOWS) {
-	  code = RGUI(KC_RGHT);
-	} else {
-	  code = LCA(KC_RGHT);
-	}
-	if (record->event.pressed) {
-	  register_code16(code);
-	} else {
-	  unregister_code16(code);
-	}
+        uint16_t code = LCA(KC_RGHT);
+#ifdef OS_DETECTION_ENABLE
+        if (detected_host_os() == OS_WINDOWS) {
+          code = RGUI(KC_RGHT);
+        }
+#endif
+        if (record->event.pressed) {
+          register_code16(code);
+        } else {
+          unregister_code16(code);
+        }
       }
       return false;
     case PAD_4_LEFT:
       {
-	uint16_t code;
-	if (detected_host_os() == OS_WINDOWS) {
-	  code = RGUI(KC_LEFT);
-	} else {
-	  code = LCA(KC_LEFT);
-	}
-	if (record->event.pressed) {
-	  register_code16(code);
-	} else {
-	  unregister_code16(code);
-	}
+        uint16_t code = LCA(KC_LEFT);
+#ifdef OS_DETECTION_ENABLE
+        if (detected_host_os() == OS_WINDOWS) {
+          code = RGUI(KC_LEFT);
+        }
+#endif
+        if (record->event.pressed) {
+          register_code16(code);
+        } else {
+          unregister_code16(code);
+        }
       }
       return false;
     case PAD_4_DOWN:
       {
-	uint16_t code;
-	if (detected_host_os() == OS_WINDOWS) {
-	  code = RGUI(KC_DOWN);
-	} else {
-	  code = LCA(KC_DOWN);
-	}
-	if (record->event.pressed) {
-	  register_code16(code);
-	} else {
-	  unregister_code16(code);
-	}
+        uint16_t code = LCA(KC_DOWN);
+#ifdef OS_DETECTION_ENABLE
+        if (detected_host_os() == OS_WINDOWS) {
+          code = RGUI(KC_DOWN);
+        }
+#endif
+        if (record->event.pressed) {
+          register_code16(code);
+        } else {
+          unregister_code16(code);
+        }
       }
       return false;
     case PAD_4_UP:
       {
-	uint16_t code;
-	if (detected_host_os() == OS_WINDOWS) {
-	  code = RGUI(KC_UP);
-	} else {
-	  code = LCA(KC_UP);
-	}
-	if (record->event.pressed) {
-	  register_code16(code);
-	} else {
-	  unregister_code16(code);
-	}
+        uint16_t code = LCA(KC_UP);
+#ifdef OS_DETECTION_ENABLE
+        if (detected_host_os() == OS_WINDOWS) {
+          code = RGUI(KC_UP);
+        }
+#endif
+        if (record->event.pressed) {
+          register_code16(code);
+        } else {
+          unregister_code16(code);
+        }
       }
       return false;
 
