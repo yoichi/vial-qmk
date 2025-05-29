@@ -22,6 +22,7 @@ enum my_keycodes {
   PAD_4_LEFT,
   PAD_4_DOWN,
   PAD_4_UP,
+  IME_TGL,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -29,7 +30,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    LT(2,KC_TAB), KC_Q,    KC_W,    KC_E,            KC_R,           KC_T, KC_DEL,  KC_F5,   KC_F2,   KC_Y,    KC_U,           KC_I,             KC_O,    KC_P, LT(1,KC_EQL),
  LCTL_T(KC_ESC), KC_A,    KC_S,    KC_D,            KC_F,           KC_G,                            KC_H,    KC_J,           KC_K,             KC_L,    KC_SCLN, RCTL_T(KC_MINS),
         KC_LSFT, KC_Z,    KC_X,    KC_C,            KC_V,           KC_B,                            KC_N,    KC_M,           KC_COMM,          KC_DOT,  KC_SLSH, KC_RSFT,
-                 KC_LALT, KC_LGUI, LSFT_T(KC_LNG2), LT(1, KC_SPC),  MO(3),         LOW_SPEED,    KC_BSPC,   LT(2, KC_ENT),  RSFT_T(KC_LNG1),  KC_RALT, KC_RGUI
+                 KC_LALT, KC_LGUI, KC_BTN1, LT(1, KC_SPC),  MO(3),         LOW_SPEED,    KC_BSPC,   LT(2, KC_ENT),  KC_BTN2,  KC_RALT, KC_RGUI
                , PAD_3_UP, PAD_3_RGHT, PAD_3_DOWN, PAD_3_LEFT, PAD_4_UP, PAD_4_RGHT, PAD_4_DOWN, PAD_4_LEFT
     ),
 
@@ -51,7 +52,7 @@ _______,S(KC_INT1),S(KC_INT3),S(KC_GRV),S(KC_LBRC),S(KC_RBRC),                  
           DF(4), G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5), _______, _______, _______, G(KC_6), G(KC_7), G(KC_8), G(KC_9), KC_BRMU, KC_VOLU,
    _______,S(KC_LEFT),S(KC_DOWN),S(KC_UP),S(KC_RGHT),KC_PGUP,                         C(KC_LEFT),C(KC_DOWN),C(KC_UP),C(KC_RGHT), KC_BRMD, KC_VOLD,
    _______,RWIN(KC_1),RWIN(KC_2),RWIN(KC_3),RWIN(KC_4),KC_PGDN,             RWIN(KC_LEFT),RWIN(KC_DOWN),RWIN(KC_UP),RWIN(KC_RGHT), _______, KC_MUTE,
-                 _______, _______, _______  , _______, _______,        _______,          _______, _______, _______, _______, _______
+                 _______, _______, _______  , _______, _______,        _______,          IME_TGL, _______, _______, _______, _______
                , _______, _______, _______  , _______, _______, _______, _______, _______
     ),
     [4] = LAYOUT(
@@ -311,6 +312,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           register_code16(code);
         } else {
           unregister_code16(code);
+        }
+      }
+      return false;
+
+    case IME_TGL:
+      {
+        uint16_t mod = KC_LGUI;
+        uint16_t code = KC_SPC;
+#ifdef OS_DETECTION_ENABLE
+        if (detected_host_os() == OS_WINDOWS) {
+          mod = KC_RALT;
+          code = KC_GRV;
+        }
+#endif
+        if (record->event.pressed) {
+          register_code16(mod);
+          wait_ms(10);
+          tap_code16(code);
+          unregister_code16(mod);
         }
       }
       return false;
