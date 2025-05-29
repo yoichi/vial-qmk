@@ -35,7 +35,8 @@
 trackpad_config_t trackpad_config = {
     .reverse_vertical_scroll = false,
     .reverse_horizontal_scroll = false,
-    .disable_3fingers_tap =false
+    .disable_3fingers_tap =false,
+    .disable_tap =false
 };
 
 
@@ -43,14 +44,16 @@ void read_trackpad_config(void) {
     uint32_t data = eeconfig_read_kb();
     trackpad_config.reverse_vertical_scroll = (data & REVERSE_VERTICAL_SCROLL_MASK) > 0;
     trackpad_config.reverse_horizontal_scroll = (data & REVERSE_HORIZONTAL_SCROLL_MASK) > 0;
-    trackpad_config.disable_3fingers_tap = (data & REVERSE_DISABLE_3FINGERS_MASK) > 0;
+    trackpad_config.disable_3fingers_tap = (data & DISABLE_3FINGERS_MASK) > 0;
+    trackpad_config.disable_tap = (data & DISABLE_TAP_MASK) > 0;
 }
 
 void update_trackpad_config(trackpad_config_t config) {
     uint32_t data = 0;
     data += trackpad_config.reverse_vertical_scroll ? REVERSE_VERTICAL_SCROLL_MASK : 0;
     data += trackpad_config.reverse_horizontal_scroll ? REVERSE_HORIZONTAL_SCROLL_MASK : 0;
-    data += trackpad_config.disable_3fingers_tap ? REVERSE_DISABLE_3FINGERS_MASK : 0;
+    data += trackpad_config.disable_3fingers_tap ? DISABLE_3FINGERS_MASK : 0;
+    data += trackpad_config.disable_tap ? DISABLE_TAP_MASK : 0;
     eeconfig_update_kb(data);
 }
 
@@ -229,6 +232,7 @@ dispatch_button_t dispatch_buttons(int num_of_fingers) {
     };
 
     if ( num_of_fingers > 3 ||
+        trackpad_config.disable_tap ||
         (num_of_fingers == 3 && trackpad_config.disable_3fingers_tap)) {
         temp.is_pressed = false;
         return temp;

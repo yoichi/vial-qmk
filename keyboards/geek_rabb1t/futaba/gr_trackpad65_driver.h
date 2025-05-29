@@ -82,11 +82,13 @@ typedef struct {
     bool    reverse_vertical_scroll;
     bool    reverse_horizontal_scroll;
     bool    disable_3fingers_tap;
+    bool    disable_tap;
 } trackpad_config_t;
 
 #define REVERSE_VERTICAL_SCROLL_MASK   0b0000000000000001
 #define REVERSE_HORIZONTAL_SCROLL_MASK 0b0000000000000010
-#define REVERSE_DISABLE_3FINGERS_MASK  0b0000000000000100
+#define DISABLE_3FINGERS_MASK          0b0000000000000100
+#define DISABLE_TAP_MASK               0b0000000000001000
 
 extern trackpad_config_t trackpad_config;
 

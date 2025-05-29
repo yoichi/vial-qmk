@@ -12,6 +12,8 @@ enum my_keycodes {
   TGL_H_SCL,
   EN_3_TAP,
   DIS_3_TAP,
+  EN_TAP,
+  DIS_TAP,
   ZOOM_IN,
   ZOOM_OUT,
   PAD_3_RGHT,
@@ -56,8 +58,8 @@ _______,S(KC_INT1),S(KC_INT3),S(KC_GRV),S(KC_LBRC),S(KC_RBRC),                  
                , _______, _______, _______  , _______, _______, _______, _______, _______
     ),
     [4] = LAYOUT(
-        _______, _______, _______, EN_3_TAP , _______, _______, TGL_V_SCL, _______, TGL_H_SCL, _______, _______, _______, _______, _______, _______,
-        QK_BOOT, _______, _______, DIS_3_TAP, _______, _______,                                _______, _______, _______, _______, _______,  EE_CLR,
+        _______, _______,  EN_TAP, EN_3_TAP , _______, _______, TGL_V_SCL, _______, TGL_H_SCL, _______, _______, _______, _______, _______, _______,
+        QK_BOOT, _______, DIS_TAP, DIS_3_TAP, _______, _______,                                _______, _______, _______, _______, _______,  EE_CLR,
         _______, _______, _______, _______  , _______, _______,                                _______, _______, AG_LSWP, AG_LNRM, _______, _______,
                  _______, _______, _______  , _______, _______,            DF(0)  ,            _______, _______, _______, _______, _______
                , _______, _______, _______  , _______, _______, _______, _______, _______
@@ -78,6 +80,9 @@ void keyboard_post_init_user(void) {
     //debug_matrix = true;
     //debug_keyboard = true;
     //debug_mouse = true;
+
+    trackpad_config.disable_tap = true;
+    update_trackpad_config(trackpad_config);
 }
 
 #if defined(OS_DETECTION_ENABLE)
@@ -159,6 +164,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case DIS_3_TAP:
       if (record->event.pressed) {
         trackpad_config.disable_3fingers_tap = true;
+        update_trackpad_config(trackpad_config);
+      }
+      return false;
+
+    case EN_TAP:
+      if (record->event.pressed) {
+        trackpad_config.disable_tap = false;
+        update_trackpad_config(trackpad_config);
+      }
+      return false;
+
+    case DIS_TAP:
+      if (record->event.pressed) {
+        trackpad_config.disable_tap = true;
         update_trackpad_config(trackpad_config);
       }
       return false;
