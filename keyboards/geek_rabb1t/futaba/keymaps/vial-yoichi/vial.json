@@ -31,6 +31,31 @@
             "shortName": "Dis3T",
 	        "title": "Disable 3 fingers tap.",
 	        "name": "DIS_3_TAP"
+    	},
+        {
+            "shortName": "EnT",
+	        "title": "Enable tap.",
+	        "name": "EN_TAP"
+    	},
+        {
+            "shortName": "DisT",
+	        "title": "Disable tap.",
+	        "name": "DIS_TAP"
+    	},
+        {
+            "shortName": "ZI",
+	        "title": "Zoom-in.",
+	        "name": "ZOOM_IN"
+    	},
+        {
+            "shortName": "ZO",
+	        "title": "Zoom-out.",
+	        "name": "ZOOM_OUT"
+    	},
+        {
+            "shortName": "IME",
+	        "title": "IME toggle.",
+	        "name": "IME_TGL"
     	}
     ],
     "matrix": {
