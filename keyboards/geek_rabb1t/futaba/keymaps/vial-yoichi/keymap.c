@@ -47,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      S(KC_QUOT), S(KC_1), S(KC_2), S(KC_3), S(KC_4), S(KC_5), _______, _______, _______, S(KC_6), S(KC_7), S(KC_8), S(KC_9), S(KC_0),S(KC_BSLS),
 _______,S(KC_INT1),S(KC_INT3),S(KC_GRV),S(KC_LBRC),S(KC_RBRC),                             KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
       _______,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                              _______, _______, _______, _______, _______, _______,
-              _______, _______, _______,S(KC_HOME),S(KC_END),          KC_KB_MUTE,       _______, _______, _______, _______, _______
+              _______, _______, _______,S(KC_HOME),S(KC_END),          KC_MUTE,          _______, _______, _______, _______, _______
                , _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [3] = LAYOUT(
@@ -69,7 +69,7 @@ _______,S(KC_INT1),S(KC_INT3),S(KC_GRV),S(KC_LBRC),S(KC_RBRC),                  
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [0] =   { ENCODER_CCW_CW(KC_UP, KC_DOWN) },
     [1] =   { ENCODER_CCW_CW(KC_LEFT, KC_RGHT) },
-    [2] =   { ENCODER_CCW_CW(KC_KB_VOLUME_UP, KC_KB_VOLUME_DOWN) },
+    [2] =   { ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
     [3] =   { ENCODER_CCW_CW(ZOOM_OUT, ZOOM_IN) },
     [4] =   { ENCODER_CCW_CW(KC_UP, KC_DOWN) }
 };
