@@ -18,59 +18,79 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 #include "quantum.h"
+#include "os_detection.h"
+#include "keymap_japanese.h"
 
 #define MS_BTN1 KC_MS_BTN1
 #define MS_BTN2 KC_MS_BTN2
 #define MS_BTN3 KC_MS_BTN3
 
+enum layer_number {
+    _BASE = 0,
+    _NUMBER = 1,
+    _SYMBOL = 2,
+    _FUNC = 3,
+    _MEDIA = 4,
+    _CONFIG = 5,
+};
+
+enum custom_user_keycodes {
+    IME_TGL = QK_USER_0,
+
+    // Reuse unused basic keycodes
+    //MY_S_0 = KC_NUBS,
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-    [0] = LAYOUT(
-        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,             KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
-        KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_ESC,  KC_H,    KC_J,    KC_K,    KC_L,    KC_MINS,
-        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,             KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-                          KC_LALT, KC_LNG2, KC_SPC,  MS_BTN1, KC_ENT,  KC_LNG1, KC_BSPC
+    [_BASE] = LAYOUT(
+LT(_SYMBOL,KC_Q),KC_W,    KC_E,    KC_R,    KC_T,             KC_Y,    KC_U,    KC_I,    KC_O,    LT(_NUMBER,KC_P),
+LCTL_T(KC_A),    KC_S,    KC_D,    KC_F,    KC_G,    KC_ESC,  KC_H,    KC_J,    KC_K,    KC_L,    RCTL_T(KC_SCLN),
+LSFT_T(KC_Z),    KC_X,    KC_C,    KC_V,    KC_B,             KC_N,    KC_M,    KC_COMM, KC_DOT,  RSFT_T(KC_SLSH),
+              KC_LALT, KC_LGUI, LT(_NUMBER,KC_SPC),  MS_BTN1, KC_BSPC, LT(_SYMBOL,KC_ENT), LT(_FUNC,KC_TAB)
     ),
-    [1] = LAYOUT(
-        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,          KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_ESC,  KC_H,    KC_J,    KC_K,    KC_L,    KC_MINS,
-        KC_GRV,  KC_TILD, KC_NUBS, KC_PIPE, XXXXXXX,          KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-                          KC_LALT, KC_LNG2, KC_SPC,  MS_BTN1, KC_ENT,  KC_LNG1, KC_BSPC
-    ),
-    [2] = LAYOUT(
+    [_NUMBER] = LAYOUT(
         KC_1,    KC_2,    KC_3,    KC_4,    KC_5,             KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
-        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_ESC,  KC_APP,  KC_UP,   KC_EQL,  KC_PLUS, KC_MINS,
-        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,           KC_LEFT, KC_DOWN, KC_RGHT, KC_DOT,  KC_SLSH,
-                          KC_LALT, KC_LNG2, KC_SPC,  MS_BTN1, KC_ENT,  KC_LNG1, KC_BSPC
+        KC_INT1, KC_INT3, KC_GRV,  KC_LBRC, KC_RBRC, KC_DEL,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_INS,
+       KC_CAPS,S(KC_HOME),S(KC_END),KC_QUOT,KC_BSLS,          KC_MINS, KC_EQL,  KC_COMM, KC_DOT,  KC_SLSH,
+                          KC_HOME, KC_END, _______,  MS_BTN2, IME_TGL, _______, RCTL(KC_RALT)
     ),
-    [3] = LAYOUT(
-        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,             KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
-        KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_ESC,  KC_H,    KC_J,    KC_K,    KC_L,    KC_MINS,
-        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,             KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-                          KC_LALT, KC_LNG2, KC_SPC,  MS_BTN1, KC_ENT,  KC_LNG1, KC_BSPC
+    [_SYMBOL] = LAYOUT(
+        S(KC_1), S(KC_2), S(KC_3), S(KC_4), S(KC_5),          S(KC_6), S(KC_7), S(KC_8), S(KC_9), S(KC_0),
+S(KC_INT1),S(KC_INT3),S(KC_GRV),S(KC_LBRC),S(KC_RBRC),_______,S(KC_LEFT),S(KC_DOWN),S(KC_UP),S(KC_RGHT),S(KC_INS),
+      XXXXXXX, XXXXXXX, XXXXXXX,S(KC_QUOT),S(KC_BSLS),        S(KC_MINS),S(KC_EQL), XXXXXXX, XXXXXXX, XXXXXXX,
+                   LCTL(KC_LGUI), KC_LGUI, _______,  MS_BTN1, XXXXXXX, XXXXXXX, XXXXXXX
     ),
-    [4] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          MS_BTN3, MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN1, SCRL_MO, XXXXXXX
+    [_FUNC] = LAYOUT(
+        G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5),          G(KC_6), G(KC_7), G(KC_8), G(KC_9), G(KC_0),
+        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,TT(_CONFIG),KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
+        XXXXXXX,C(KC_LEFT),C(KC_DOWN),C(KC_UP),C(KC_RGHT),    LCA(KC_LEFT),LCA(KC_DOWN),LCA(KC_UP),LCA(KC_RGHT),KC_F11,
+                 LCTL(KC_LGUI), KC_LGUI, TT(_MEDIA), XXXXXXX, XXXXXXX, TT(_MEDIA), XXXXXXX
     ),
-    [5] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    ),
+    [_MEDIA] = LAYOUT(
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, KC_BRIU, KC_VOLU,
+        QK_RBT,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BRID, KC_VOLD,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_MUTE,
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+    ),
+    [_CONFIG] = LAYOUT(
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,          SCRL_TO, CPI_SW,  SCRL_SW, ROT_L15, ROT_R15,
+        QK_BOOT, RGB_VAI, RGB_SAI, RGB_HUI, RGB_MOD, XXXXXXX, SCRL_MO, XXXXXXX, XXXXXXX, XXXXXXX, EE_CLR,
+        XXXXXXX, RGB_VAD, RGB_SAD, RGB_HUD, RGB_RMOD,         SCRL_IN, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+    ),
     [6] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    ),
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+    ),
     [7] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    )
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+    )
 };
 
 
@@ -90,6 +110,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
 
 
 
+#ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
 bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
     switch(keycode) {
       case KC_LCTL:
@@ -103,6 +124,7 @@ bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
     }
     return is_mouse_record_user(keycode, record);
 }
+#endif
 
 
 
@@ -140,3 +162,429 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 
 #endif
 
+static bool use_pseudo_us_keymap = false;
+static os_variant_t host_os;
+
+#if defined(OS_DETECTION_ENABLE) && defined(DEFERRED_EXEC_ENABLE)
+uint32_t os_detect_callback(uint32_t trigger_time, void *cb_arg) {
+    host_os = detected_host_os();
+#ifdef CONSOLE_ENABLE
+    uprintf("detected_host_os %d\n", host_os);
+#endif
+    switch (host_os) {
+        case OS_MACOS:
+        case OS_IOS:
+            host_os = OS_MACOS;
+            break;
+        case OS_WINDOWS:
+        default:
+            use_pseudo_us_keymap = true;
+            host_os = OS_WINDOWS;
+            break;
+    }
+    return 0;
+}
+#endif
+
+void keyboard_post_init_user(void) {
+#ifdef CONSOLE_ENABLE
+    debug_enable = true;
+#endif
+#if defined(OS_DETECTION_ENABLE) && defined(DEFERRED_EXEC_ENABLE)
+    defer_exec(500, os_detect_callback, NULL);
+#endif
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef CONSOLE_ENABLE
+    uprintf("process_record_user: 0x%04x\n", keycode);
+#endif
+    switch (keycode) {
+        case KC_CAPS:
+            if (use_pseudo_us_keymap) {
+                uint16_t kc = JP_CAPS; // (CapsLock)
+                if (record->event.pressed) {
+                    register_code16(kc);
+                } else {
+                    unregister_code16(kc);
+                }
+                return false;
+            }
+            break;
+        case KC_2:
+        case S(KC_2):
+            if (use_pseudo_us_keymap) {
+                uint8_t mod_state = get_mods();
+                if (keycode == S(KC_2) || mod_state & MOD_MASK_SHIFT) {
+                    uint16_t kc = JP_AT; // @
+                    if (record->event.pressed) {
+                        del_mods(MOD_MASK_SHIFT);
+                        register_code16(kc);
+                        set_mods(mod_state);
+                    } else {
+                        unregister_code16(kc);
+                    }
+                    return false;
+                }
+            }
+            break;
+        case KC_6:
+        case S(KC_6):
+            if (use_pseudo_us_keymap) {
+                uint8_t mod_state = get_mods();
+                if (keycode == S(KC_6) || mod_state & MOD_MASK_SHIFT) {
+                    uint16_t kc = JP_CIRC; // ^
+                    if (record->event.pressed) {
+                        del_mods(MOD_MASK_SHIFT);
+                        register_code16(kc);
+                        set_mods(mod_state);
+                    } else {
+                        unregister_code16(kc);
+                    }
+                    return false;
+                }
+            }
+            break;
+        case KC_7:
+        case S(KC_7):
+            if (use_pseudo_us_keymap) {
+                uint8_t mod_state = get_mods();
+                if (keycode == S(KC_7) || mod_state & MOD_MASK_SHIFT) {
+                    uint16_t kc = JP_AMPR; // &
+                    if (record->event.pressed) {
+                        register_code16(kc);
+                    } else {
+                        unregister_code16(kc);
+                    }
+                    return false;
+                }
+            }
+            break;
+        case KC_8:
+        case S(KC_8):
+            if (use_pseudo_us_keymap) {
+                uint8_t mod_state = get_mods();
+                if (keycode == S(KC_8) || mod_state & MOD_MASK_SHIFT) {
+                    uint16_t kc = JP_ASTR; // *
+                    if (record->event.pressed) {
+                        register_code16(kc);
+                    } else {
+                        unregister_code16(kc);
+                    }
+                    return false;
+                }
+            }
+            break;
+        case KC_9:
+        case S(KC_9):
+            if (use_pseudo_us_keymap) {
+                uint8_t mod_state = get_mods();
+                if (keycode == S(KC_9) || mod_state & MOD_MASK_SHIFT) {
+                    uint16_t kc = JP_LPRN; // (
+                    if (record->event.pressed) {
+                        register_code16(kc);
+                    } else {
+                        unregister_code16(kc);
+                    }
+                    return false;
+                }
+            }
+            break;
+        case KC_0:
+        case S(KC_0):
+            if (use_pseudo_us_keymap) {
+                uint8_t mod_state = get_mods();
+                if (keycode == S(KC_0) || mod_state & MOD_MASK_SHIFT) {
+                    uint16_t kc = JP_RPRN; // )
+                    if (record->event.pressed) {
+                        register_code16(kc);
+                    } else {
+                        unregister_code16(kc);
+                    }
+                    return false;
+                }
+            }
+            break;
+        case KC_MINS:
+        case S(KC_MINS):
+            if (use_pseudo_us_keymap) {
+                uint8_t mod_state = get_mods();
+                if (keycode == S(KC_MINS) || mod_state & MOD_MASK_SHIFT) {
+                    uint16_t kc = JP_UNDS; // _
+                    if (record->event.pressed) {
+                        register_code16(kc);
+                    } else {
+                        unregister_code16(kc);
+                    }
+                    return false;
+                }
+            }
+            break;
+        case KC_QUOT:
+        case S(KC_QUOT):
+            if (use_pseudo_us_keymap) {
+                static uint16_t kc;
+                if (record->event.pressed) {
+                    uint8_t mod_state = get_mods();
+                    if (keycode == S(KC_QUOT) || mod_state & MOD_MASK_SHIFT) {
+                        del_mods(MOD_MASK_SHIFT);
+                        kc = JP_DQUO; // "
+                    } else {
+		      kc = JP_QUOT; // '
+                    }
+                    register_code16(kc);
+                    set_mods(mod_state);
+                    return false;
+                } else if (kc) {
+                    unregister_code16(kc);
+                    kc = 0;
+                    return false;
+                }
+            }
+            break;
+        case KC_GRV:
+        case S(KC_GRV):
+            if (use_pseudo_us_keymap) {
+                static uint16_t kc;
+                if (record->event.pressed) {
+                    uint8_t mod_state = get_mods();
+                    if (keycode == S(KC_GRV) || mod_state & MOD_MASK_SHIFT) {
+                        del_mods(MOD_MASK_SHIFT);
+                        kc = JP_TILD; // ~
+                    } else {
+		      kc = JP_GRV; // `
+                    }
+                    register_code16(kc);
+                    set_mods(mod_state);
+                    return false;
+                } else if (kc) {
+                    unregister_code16(kc);
+                    kc = 0;
+                    return false;
+                }
+            }
+            break;
+        case KC_SCLN:
+            if (use_pseudo_us_keymap) {
+                uint8_t mod_state = get_mods();
+                if (mod_state & MOD_MASK_SHIFT) {
+                    uint16_t kc = JP_COLN; // :
+                    if (record->event.pressed) {
+                        register_code16(kc);
+                    } else {
+                        unregister_code16(kc);
+                    }
+                    return false;
+                }
+            }
+            break;
+        case KC_EQL:
+        case S(KC_EQL):
+            if (use_pseudo_us_keymap) {
+                static uint16_t kc;
+                if (record->event.pressed) {
+                    uint8_t mod_state = get_mods();
+                    if (keycode == S(KC_EQL) || mod_state & MOD_MASK_SHIFT) {
+                        del_mods(MOD_MASK_SHIFT);
+                        kc = JP_PLUS;
+                    } else if (mod_state & MOD_MASK_CTRL) {
+                        // treat Ctrl+= as Zoom-in like US layout (=, + are on the same key)
+                        // cf. Ctrl+= is treated as Zoom-out in JP layout (-, = are on the same key)
+                        del_mods(MOD_MASK_SHIFT);
+                        kc = JP_SCLN; // ;, + are on the same key in JIS layout
+                    } else {
+                        kc = JP_EQL; // =
+                    }
+                    register_code16(kc);
+                    set_mods(mod_state);
+                    return false;
+                } else if (kc) {
+                    unregister_code16(kc);
+                    kc = 0;
+                    return false;
+                }
+            }
+            break;
+        case KC_BSLS:
+        case S(KC_BSLS):
+            if (use_pseudo_us_keymap) {
+                static uint16_t kc;
+                if (record->event.pressed) {
+                    uint8_t mod_state = get_mods();
+                    if (keycode == S(KC_BSLS) || mod_state & MOD_MASK_SHIFT) {
+                        del_mods(MOD_MASK_SHIFT);
+                        kc = JP_PIPE; // |
+                    } else {
+                        kc = JP_BSLS; // (backslash)
+                    }
+                    register_code16(kc);
+                    set_mods(mod_state);
+                    return false;
+                } else if (kc) {
+                    unregister_code16(kc);
+                    kc = 0;
+                    return false;
+                }
+            }
+            break;
+        case KC_LBRC:
+        case S(KC_LBRC):
+            if (use_pseudo_us_keymap) {
+                static uint16_t kc;
+                if (record->event.pressed) {
+                    uint8_t mod_state = get_mods();
+                    if (keycode == S(KC_LBRC) || mod_state & MOD_MASK_SHIFT) {
+                        del_mods(MOD_MASK_SHIFT);
+                        kc = JP_LCBR; // {
+                    } else {
+		      kc = JP_LBRC; // [
+                    }
+                    register_code16(kc);
+                    set_mods(mod_state);
+                    return false;
+                } else if (kc) {
+                    unregister_code16(kc);
+                    kc = 0;
+                    return false;
+                }
+            }
+            break;
+        case KC_RBRC:
+        case S(KC_RBRC):
+            if (use_pseudo_us_keymap) {
+                static uint16_t kc;
+                if (record->event.pressed) {
+                    uint8_t mod_state = get_mods();
+                    if (keycode == S(KC_RBRC) || mod_state & MOD_MASK_SHIFT) {
+                        del_mods(MOD_MASK_SHIFT);
+                        kc = JP_RCBR; // }
+                    } else {
+		      kc = JP_RBRC; // ]
+                    }
+                    register_code16(kc);
+                    set_mods(mod_state);
+                    return false;
+                } else if (kc) {
+                    unregister_code16(kc);
+                    kc = 0;
+                    return false;
+                }
+            }
+            break;
+        case RALT_T(KC_QUOT):
+            if (use_pseudo_us_keymap) {
+                if (record->tap.count) {
+                    static uint16_t kc;
+                    if (record->event.pressed) {
+                        uint8_t mod_state = get_mods();
+                        if (mod_state & MOD_MASK_SHIFT) {
+                            del_mods(MOD_MASK_SHIFT);
+                            kc = JP_DQUO;
+                        } else {
+                            kc = JP_QUOT;
+                        }
+                        register_code16(kc);
+                        set_mods(mod_state);
+                        return false;
+                    } else if (kc) {
+                        unregister_code16(kc);
+                        kc = 0;
+                        return false;
+                    }
+                }
+            }
+            break;
+#if defined(OS_DETECTION_ENABLE) && defined(DEFERRED_EXEC_ENABLE)
+        case KC_LALT:
+            switch (host_os) {
+            case OS_WINDOWS:
+                if (record->event.pressed) {
+                    register_code16(KC_LGUI);
+                } else {
+                    unregister_code16(KC_LGUI);
+                }
+                return false;
+            default:
+                break;
+            }
+            break;
+        case KC_LGUI:
+            switch (host_os) {
+            case OS_WINDOWS:
+                if (record->event.pressed) {
+                    register_code16(KC_LALT);
+                } else {
+                    unregister_code16(KC_LALT);
+                }
+                return false;
+            default:
+                break;
+            }
+            break;
+        case LCA(KC_LEFT):
+        case LCA(KC_DOWN):
+        case LCA(KC_UP):
+        case LCA(KC_RGHT):
+            switch (host_os) {
+            case OS_WINDOWS:
+                keycode ^= (QK_LCTL | QK_LALT);
+                keycode = RWIN(keycode);
+                if (record->event.pressed) {
+                    register_code16(keycode);
+                } else {
+                    unregister_code16(keycode);
+                }
+                return false;
+            default:
+                break;
+            }
+            break;
+        case C(KC_LEFT):
+        case C(KC_DOWN):
+        case C(KC_UP):
+        case C(KC_RGHT):
+            switch (host_os) {
+            case OS_WINDOWS:
+                keycode = RWIN(keycode);
+                if (record->event.pressed) {
+                    register_code16(keycode);
+                } else {
+                    unregister_code16(keycode);
+                }
+                return false;
+            default:
+                break;
+            }
+            break;
+        case IME_TGL:
+            switch (host_os) {
+            case OS_WINDOWS:
+                if (record->event.pressed) {
+                    if (use_pseudo_us_keymap) {
+                        tap_code16(JP_ZKHK);
+                    } else {
+                        register_code16(KC_RALT);
+                        wait_ms(10);
+                        tap_code16(KC_GRV);
+                        unregister_code16(KC_RALT);
+                    }
+                }
+                return false;
+            case OS_MACOS:
+                if (record->event.pressed) {
+                    register_code16(KC_LGUI);
+                    wait_ms(10);
+                    tap_code16(KC_SPC);
+                    unregister_code16(KC_LGUI);
+                }
+                return false;
+            default:
+                break;
+            }
+            break;
+#endif
+        default:
+            break;
+    }
+    return true;
+}
