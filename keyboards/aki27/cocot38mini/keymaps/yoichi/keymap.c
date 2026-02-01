@@ -175,11 +175,13 @@ uint32_t os_detect_callback(uint32_t trigger_time, void *cb_arg) {
         case OS_MACOS:
         case OS_IOS:
             host_os = OS_MACOS;
+            cocot_config.scrl_inv = false;
             break;
         case OS_WINDOWS:
         default:
             use_pseudo_us_keymap = true;
             host_os = OS_WINDOWS;
+            cocot_config.scrl_inv = true;
             break;
     }
     return 0;
