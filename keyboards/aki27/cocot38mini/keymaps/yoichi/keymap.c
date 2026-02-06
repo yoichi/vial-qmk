@@ -45,19 +45,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_BASE] = LAYOUT(
 LT(_SYMBOL,KC_Q),KC_W,    KC_E,    KC_R,    KC_T,             KC_Y,    KC_U,    KC_I,    KC_O,    LT(_NUMBER,KC_P),
-LCTL_T(KC_A),    KC_S,    KC_D,    KC_F,    KC_G,    KC_ESC,  KC_H,    KC_J,    KC_K,    KC_L,    RCTL_T(KC_SCLN),
+        KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_ESC,  KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
 LSFT_T(KC_Z),    KC_X,    KC_C,    KC_V,    KC_B,             KC_N,    KC_M,    KC_COMM, KC_DOT,  RSFT_T(KC_SLSH),
-              KC_LALT, KC_LGUI, LT(_NUMBER,KC_SPC),  MS_BTN1, KC_BSPC, LT(_SYMBOL,KC_ENT), LT(_FUNC,KC_TAB)
+              KC_LALT, KC_LGUI, LT(_NUMBER,KC_SPC),  MS_BTN1, RCTL_T(KC_BSPC), LT(_SYMBOL,KC_ENT), LT(_FUNC,KC_DEL)
     ),
     [_NUMBER] = LAYOUT(
         KC_1,    KC_2,    KC_3,    KC_4,    KC_5,             KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
-        KC_INT1, KC_INT3, KC_GRV,  KC_LBRC, KC_RBRC, KC_DEL,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_INS,
-       KC_CAPS,S(KC_HOME),S(KC_END),KC_QUOT,KC_BSLS,          KC_MINS, KC_EQL,  KC_COMM, KC_DOT,  KC_SLSH,
+        KC_INT1, KC_INT3, KC_GRV,  KC_LBRC, KC_RBRC, KC_TAB,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_INS,
+LSFT_T(KC_CAPS),S(KC_HOME),S(KC_END),KC_QUOT,KC_BSLS,         KC_MINS, KC_EQL,  KC_COMM, KC_DOT,  LSFT_T(KC_SLSH),
                           KC_HOME, KC_END, _______,  MS_BTN2, IME_TGL, _______, RCTL(KC_RALT)
     ),
     [_SYMBOL] = LAYOUT(
         S(KC_1), S(KC_2), S(KC_3), S(KC_4), S(KC_5),          S(KC_6), S(KC_7), S(KC_8), S(KC_9), S(KC_0),
-S(KC_INT1),S(KC_INT3),S(KC_GRV),S(KC_LBRC),S(KC_RBRC),_______,S(KC_LEFT),S(KC_DOWN),S(KC_UP),S(KC_RGHT),S(KC_INS),
+S(KC_INT1),S(KC_INT3),S(KC_GRV),S(KC_LBRC),S(KC_RBRC),S(KC_TAB),S(KC_LEFT),S(KC_DOWN),S(KC_UP),S(KC_RGHT),S(KC_INS),
       XXXXXXX, XXXXXXX, XXXXXXX,S(KC_QUOT),S(KC_BSLS),        S(KC_MINS),S(KC_EQL), XXXXXXX, XXXXXXX, XXXXXXX,
                    LCTL(KC_LGUI), KC_LGUI, _______,  MS_BTN1, XXXXXXX, XXXXXXX, XXXXXXX
     ),
