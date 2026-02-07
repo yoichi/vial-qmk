@@ -133,15 +133,15 @@ bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) { 
     int is_layer = get_highest_layer(layer_state|default_layer_state);  
     HSV hsv = {0, 255, rgblight_get_val()};
-    if (is_layer == 1) {
+    if (is_layer == _NUMBER) {
       hsv.h = 11; //CORAL
-    } else if (is_layer == 2)  {
+    } else if (is_layer == _SYMBOL)  {
       hsv.h = 85; //GREEN
-    } else if (is_layer == 3)  {
+    } else if (is_layer == _FUNC)  {
       hsv.h = 43; //YELLOW
-    } else if (is_layer == 4)  {
+    } else if (is_layer == _MEDIA)  {
       hsv.h = 0; //RED
-    } else if (is_layer == 5)  {
+    } else if (is_layer == _CONFIG)  {
       hsv.h = 191; //PURPLE
     } else if (is_layer == 6)  {
       hsv.h = 64; //CHARTREUSE
@@ -153,7 +153,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     RGB rgb = hsv_to_rgb(hsv);
  
     for (uint8_t i = led_min; i <= led_max; i++) {
-        if (HAS_FLAGS(g_led_config.flags[i], 0x02)) {
+        if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_UNDERGLOW)) {
           rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
         }
     }
