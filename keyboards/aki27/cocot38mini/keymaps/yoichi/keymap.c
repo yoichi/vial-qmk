@@ -130,6 +130,39 @@ bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
 
 #ifdef RGB_MATRIX_ENABLE
 
+static bool is_indicator_for_rotation_angle(uint8_t led) {
+    switch (cocot_config.rotation_angle) {
+    case 0:
+        return (led == g_led_config.matrix_co[1][0] || led == g_led_config.matrix_co[1][1]);
+    case 1:
+        return (led == g_led_config.matrix_co[0][0] || led == g_led_config.matrix_co[1][1]);
+    case 2:
+        return (led == g_led_config.matrix_co[0][1] || led == g_led_config.matrix_co[1][1]);
+    case 3:
+        return (led == g_led_config.matrix_co[0][2] || led == g_led_config.matrix_co[1][2]);
+    case 4:
+        return (led == g_led_config.matrix_co[0][3] || led == g_led_config.matrix_co[1][3]);
+    case 5:
+        return (led == g_led_config.matrix_co[0][4] || led == g_led_config.matrix_co[1][4]);
+    case 6:
+        return led == g_led_config.matrix_co[3][4];
+    case 7:
+        return (led == g_led_config.matrix_co[0][5] || led == g_led_config.matrix_co[1][5]);
+    case 8:
+        return (led == g_led_config.matrix_co[0][6] || led == g_led_config.matrix_co[1][6]);
+    case 9:
+        return (led == g_led_config.matrix_co[0][7] || led == g_led_config.matrix_co[1][7]);
+    case 10:
+        return (led == g_led_config.matrix_co[0][8] || led == g_led_config.matrix_co[1][8]);
+    case 11:
+        return (led == g_led_config.matrix_co[0][9] || led == g_led_config.matrix_co[1][8]);
+    case 12:
+        return (led == g_led_config.matrix_co[1][9] || led == g_led_config.matrix_co[1][8]);
+    default:
+        return false;
+    }
+}
+
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) { 
     int is_layer = get_highest_layer(layer_state|default_layer_state);  
     HSV hsv = {0, 255, rgblight_get_val()};
@@ -151,8 +184,13 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
       hsv.h = 128; //CYAN
     }
     RGB rgb = hsv_to_rgb(hsv);
+    HSV hsv_red = {0/*RED*/, 255, rgblight_get_val()};
+    RGB rgb_red = hsv_to_rgb(hsv_red);
  
     for (uint8_t i = led_min; i <= led_max; i++) {
+        if (is_layer == _CONFIG && is_indicator_for_rotation_angle(i)) {
+            rgb_matrix_set_color(i, rgb_red.r, rgb_red.g, rgb_red.b);
+        } else
         if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_UNDERGLOW)) {
           rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
         }
