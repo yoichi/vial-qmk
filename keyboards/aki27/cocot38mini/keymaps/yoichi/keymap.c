@@ -74,10 +74,10 @@ S(KC_INT1),S(KC_INT3),S(KC_GRV),S(KC_LBRC),S(KC_RBRC),S(KC_TAB),S(KC_LEFT),S(KC_
                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
     ),
     [_CONFIG] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,          SCRL_TO, CPI_SW,  SCRL_SW, ROT_L15, ROT_R15,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,          SCRL_TO, XXXXXXX, XXXXXXX, ROT_L15, ROT_R15,
         QK_BOOT, RGB_VAI, RGB_SAI, RGB_HUI, RGB_MOD, XXXXXXX, SCRL_MO, XXXXXXX, XXXXXXX, XXXXXXX, EE_CLR,
-        XXXXXXX, RGB_VAD, RGB_SAD, RGB_HUD, RGB_RMOD,         SCRL_IN, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+        XXXXXXX, RGB_VAD, RGB_SAD, RGB_HUD, RGB_RMOD,         SCRL_IN, XXXXXXX, XXXXXXX, XXXXXXX, CPI_SW,
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, SCRL_SW
     ),
     [6] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -163,6 +163,42 @@ static bool is_indicator_for_rotation_angle(uint8_t led) {
     }
 }
 
+static bool is_indicator_for_cpi_idx(uint8_t led) {
+    switch (cocot_config.cpi_idx) {
+    case 0:
+        return led == g_led_config.matrix_co[2][5];
+    case 1:
+        return led == g_led_config.matrix_co[2][6];
+    case 2:
+        return led == g_led_config.matrix_co[2][7];
+    case 3:
+        return led == g_led_config.matrix_co[2][8];
+    case 4:
+        return led == g_led_config.matrix_co[2][9];
+    default:
+        return false;
+    }
+}
+
+static bool is_indicator_for_scrl_div(uint8_t led) {
+    switch (cocot_config.scrl_div) {
+    case 0:
+        return led == g_led_config.matrix_co[3][2];
+    case 1:
+        return led == g_led_config.matrix_co[3][3];
+    case 2:
+        return led == g_led_config.matrix_co[3][5];
+    case 3:
+        return led == g_led_config.matrix_co[3][6];
+    case 4:
+        return led == g_led_config.matrix_co[3][7];
+    case 5:
+        return led == g_led_config.matrix_co[3][8];
+    default:
+        return false;
+    }
+}
+
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) { 
     int is_layer = get_highest_layer(layer_state|default_layer_state);  
     HSV hsv = {0, 255, rgblight_get_val()};
@@ -189,6 +225,10 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
  
     for (uint8_t i = led_min; i <= led_max; i++) {
         if (is_layer == _CONFIG && is_indicator_for_rotation_angle(i)) {
+            rgb_matrix_set_color(i, rgb_red.r, rgb_red.g, rgb_red.b);
+        } else if (is_layer == _CONFIG && is_indicator_for_cpi_idx(i)) {
+            rgb_matrix_set_color(i, rgb_red.r, rgb_red.g, rgb_red.b);
+        } else if (is_layer == _CONFIG && is_indicator_for_scrl_div(i)) {
             rgb_matrix_set_color(i, rgb_red.r, rgb_red.g, rgb_red.b);
         } else
         if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_UNDERGLOW)) {
