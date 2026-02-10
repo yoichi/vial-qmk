@@ -224,12 +224,11 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     RGB rgb_red = hsv_to_rgb(hsv_red);
  
     for (uint8_t i = led_min; i <= led_max; i++) {
-        if (is_layer == _CONFIG && is_indicator_for_rotation_angle(i)) {
-            rgb_matrix_set_color(i, rgb_red.r, rgb_red.g, rgb_red.b);
-        } else if (is_layer == _CONFIG && is_indicator_for_cpi_idx(i)) {
-            rgb_matrix_set_color(i, rgb_red.r, rgb_red.g, rgb_red.b);
-        } else if (is_layer == _CONFIG && is_indicator_for_scrl_div(i)) {
-            rgb_matrix_set_color(i, rgb_red.r, rgb_red.g, rgb_red.b);
+        if (is_layer == _CONFIG &&
+            (is_indicator_for_rotation_angle(i) ||
+             is_indicator_for_cpi_idx(i) ||
+             is_indicator_for_scrl_div(i))) {
+          rgb_matrix_set_color(i, rgb_red.r, rgb_red.g, rgb_red.b);
         } else
         if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_UNDERGLOW)) {
           rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
