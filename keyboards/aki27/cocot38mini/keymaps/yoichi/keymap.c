@@ -444,7 +444,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             break;
-        case KC_SCLN:
+        case RCTL_T(KC_SCLN):
             if (use_pseudo_us_keymap) {
                 uint8_t mod_state = get_mods();
                 if (mod_state & MOD_MASK_SHIFT) {
