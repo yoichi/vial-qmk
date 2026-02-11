@@ -229,9 +229,10 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
              is_indicator_for_cpi_idx(i) ||
              is_indicator_for_scrl_div(i))) {
           rgb_matrix_set_color(i, rgb_red.r, rgb_red.g, rgb_red.b);
-        } else
-        if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_UNDERGLOW)) {
+        } else if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_UNDERGLOW)) {
           rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
+        } else if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_KEYLIGHT)) {
+          rgb_matrix_set_color(i, 0, 0, 0);
         }
     }
     return false;
