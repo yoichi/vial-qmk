@@ -52,7 +52,7 @@ LSFT_T(KC_Z),    KC_X,    KC_C,    KC_V,    KC_B,             KC_N,    KC_M,    
     [_NUMBER] = LAYOUT(
         KC_1,    KC_2,    KC_3,    KC_4,    KC_5,             KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
         KC_INT1, KC_INT3, KC_GRV,  KC_LBRC, KC_RBRC, KC_ESC,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_INS,
-LSFT_T(KC_CAPS),S(KC_HOME),S(KC_END),KC_QUOT,KC_BSLS,         KC_MINS, KC_EQL,  KC_COMM, KC_DOT,  LSFT_T(KC_SLSH),
+LSFT_T(KC_CAPS),S(KC_HOME),S(KC_END),KC_QUOT,KC_BSLS,         KC_MINS, KC_EQL,  KC_COMM, KC_DOT,  RSFT_T(KC_SLSH),
                           KC_HOME, KC_END, _______,  MS_BTN2, IME_TGL, TT(_MEDIA), RCTL(KC_RALT)
     ),
     [_SYMBOL] = LAYOUT(
