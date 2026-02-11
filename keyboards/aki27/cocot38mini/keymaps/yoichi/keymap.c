@@ -223,7 +223,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     HSV hsv_red = {0/*RED*/, 255, rgblight_get_val()};
     RGB rgb_red = hsv_to_rgb(hsv_red);
  
-    for (uint8_t i = led_min; i <= led_max; i++) {
+    for (uint8_t i = led_min; i < led_max; i++) {
         if (is_layer == _CONFIG &&
             (is_indicator_for_rotation_angle(i) ||
              is_indicator_for_cpi_idx(i) ||
