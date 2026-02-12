@@ -448,12 +448,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (use_pseudo_us_keymap) {
                 uint8_t mod_state = get_mods();
                 if (mod_state & MOD_MASK_SHIFT) {
+                    del_mods(MOD_MASK_SHIFT);
                     uint16_t kc = JP_COLN; // :
                     if (record->event.pressed) {
                         register_code16(kc);
                     } else {
                         unregister_code16(kc);
                     }
+                    set_mods(mod_state);
                     return false;
                 }
             }
