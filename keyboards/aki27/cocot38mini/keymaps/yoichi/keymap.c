@@ -46,20 +46,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT(
         KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,             KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
         KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_TAB,  KC_H,    KC_J,    KC_K,    KC_L,    RCTL_T(KC_SCLN),
-        KC_Z,LSFT_T(KC_X),KC_C,    KC_V,    KC_B,             KC_N,    KC_M,    KC_COMM, KC_DOT,  RSFT_T(KC_SLSH),
+        KC_Z,LSFT_T(KC_X),KC_C,    KC_V,    KC_B,             KC_N,    KC_M,    KC_MINS, KC_EQL,  KC_RSFT,
         LCTL_T(KC_DEL), KC_LALT, LT(_NUMBER,KC_SPC), MS_BTN1, KC_BSPC, LT(_SYMBOL,KC_ENT), KC_LGUI
     ),
     [_NUMBER] = LAYOUT(
         KC_1,    KC_2,    KC_3,    KC_4,    KC_5,             KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
         KC_INT1, KC_INT3, KC_GRV,  KC_LBRC, KC_RBRC, KC_ESC,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_INS,
-LSFT_T(KC_CAPS),S(KC_HOME),S(KC_END),KC_QUOT,KC_BSLS,         KC_MINS, KC_EQL,  KC_COMM, KC_DOT,  RSFT_T(KC_SLSH),
-                          KC_HOME, KC_END, _______,  MS_BTN2, IME_TGL, TT(_FUNC), RCTL(KC_RALT)
+        KC_CAPS, KC_LSFT, XXXXXXX, KC_HOME, KC_BSLS,          KC_QUOT, KC_END,  KC_COMM, KC_DOT,  RSFT_T(KC_SLSH),
+                          _______, _______, _______, MS_BTN2, IME_TGL, TT(_FUNC), RCTL(KC_RALT)
     ),
     [_SYMBOL] = LAYOUT(
         S(KC_1), S(KC_2), S(KC_3), S(KC_4), S(KC_5),          S(KC_6), S(KC_7), S(KC_8), S(KC_9), S(KC_0),
 S(KC_INT1),S(KC_INT3),S(KC_GRV),S(KC_LBRC),S(KC_RBRC),S(KC_TAB),S(KC_LEFT),S(KC_DOWN),S(KC_UP),S(KC_RGHT),S(KC_INS),
-      XXXXXXX, XXXXXXX, XXXXXXX,S(KC_QUOT),S(KC_BSLS),        S(KC_MINS),S(KC_EQL), XXXXXXX, XXXXXXX, XXXXXXX,
-                       XXXXXXX, XXXXXXX, TT(_MEDIA), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+        XXXXXXX, XXXXXXX, XXXXXXX,S(KC_HOME),S(KC_BSLS),      S(KC_QUOT),S(KC_END),S(KC_COMM),S(KC_DOT),S(KC_SLSH),
+                       _______, _______, TT(_MEDIA), XXXXXXX, XXXXXXX, XXXXXXX, _______
 		       ),
     [_FUNC] = LAYOUT(
         G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5),          G(KC_6), G(KC_7), G(KC_8), G(KC_9), G(KC_0),
