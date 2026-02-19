@@ -296,15 +296,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (use_pseudo_us_keymap) {
                 uint8_t mod_state = get_mods();
                 if (keycode == S(KC_2) || mod_state & MOD_MASK_SHIFT) {
-                    uint16_t kc = JP_AT; // @
+                    static uint16_t kc;
                     if (record->event.pressed) {
+                        kc = JP_AT; // @
                         del_mods(MOD_MASK_SHIFT);
                         register_code16(kc);
                         set_mods(mod_state);
-                    } else {
+                        return false;
+                    } else if (kc) {
+                        del_mods(MOD_MASK_SHIFT);
                         unregister_code16(kc);
+                        set_mods(mod_state);
+                        kc = 0;
+                        return false;
                     }
-                    return false;
                 }
             }
             break;
@@ -313,15 +318,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (use_pseudo_us_keymap) {
                 uint8_t mod_state = get_mods();
                 if (keycode == S(KC_6) || mod_state & MOD_MASK_SHIFT) {
-                    uint16_t kc = JP_CIRC; // ^
+                    static uint16_t kc;
                     if (record->event.pressed) {
+                        kc = JP_CIRC; // ^
                         del_mods(MOD_MASK_SHIFT);
                         register_code16(kc);
                         set_mods(mod_state);
-                    } else {
+                        return false;
+                    } else if (kc) {
+                        del_mods(MOD_MASK_SHIFT);
                         unregister_code16(kc);
+                        set_mods(mod_state);
+                        kc = 0;
+                        return false;
                     }
-                    return false;
                 }
             }
             break;
@@ -405,8 +415,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case S(KC_QUOT):
             if (use_pseudo_us_keymap) {
                 static uint16_t kc;
+                uint8_t mod_state = get_mods();
                 if (record->event.pressed) {
-                    uint8_t mod_state = get_mods();
                     if (keycode == S(KC_QUOT) || mod_state & MOD_MASK_SHIFT) {
                         del_mods(MOD_MASK_SHIFT);
                         kc = JP_DQUO; // "
@@ -417,7 +427,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     set_mods(mod_state);
                     return false;
                 } else if (kc) {
+                    if (kc == JP_DQUO) {
+                        del_mods(MOD_MASK_SHIFT);
+                    }
                     unregister_code16(kc);
+                    set_mods(mod_state);
                     kc = 0;
                     return false;
                 }
@@ -427,8 +441,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case S(KC_GRV):
             if (use_pseudo_us_keymap) {
                 static uint16_t kc;
+                uint8_t mod_state = get_mods();
                 if (record->event.pressed) {
-                    uint8_t mod_state = get_mods();
                     if (keycode == S(KC_GRV) || mod_state & MOD_MASK_SHIFT) {
                         del_mods(MOD_MASK_SHIFT);
                         kc = JP_TILD; // ~
@@ -439,7 +453,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     set_mods(mod_state);
                     return false;
                 } else if (kc) {
+                    if (kc == JP_TILD) {
+                        del_mods(MOD_MASK_SHIFT);
+                    }
                     unregister_code16(kc);
+                    set_mods(mod_state);
                     kc = 0;
                     return false;
                 }
@@ -466,8 +484,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case S(KC_EQL):
             if (use_pseudo_us_keymap) {
                 static uint16_t kc;
+                uint8_t mod_state = get_mods();
                 if (record->event.pressed) {
-                    uint8_t mod_state = get_mods();
                     if (keycode == S(KC_EQL) || mod_state & MOD_MASK_SHIFT) {
                         del_mods(MOD_MASK_SHIFT);
                         kc = JP_PLUS;
@@ -483,7 +501,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     set_mods(mod_state);
                     return false;
                 } else if (kc) {
+                    if (kc == JP_PLUS || kc == JP_SCLN) {
+                        del_mods(MOD_MASK_SHIFT);
+                    }
                     unregister_code16(kc);
+                    set_mods(mod_state);
                     kc = 0;
                     return false;
                 }
@@ -493,8 +515,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case S(KC_BSLS):
             if (use_pseudo_us_keymap) {
                 static uint16_t kc;
+                uint8_t mod_state = get_mods();
                 if (record->event.pressed) {
-                    uint8_t mod_state = get_mods();
                     if (keycode == S(KC_BSLS) || mod_state & MOD_MASK_SHIFT) {
                         del_mods(MOD_MASK_SHIFT);
                         kc = JP_PIPE; // |
@@ -505,7 +527,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     set_mods(mod_state);
                     return false;
                 } else if (kc) {
+                    if (kc == JP_PIPE) {
+                        del_mods(MOD_MASK_SHIFT);
+                    }
                     unregister_code16(kc);
+                    set_mods(mod_state);
                     kc = 0;
                     return false;
                 }
@@ -515,8 +541,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case S(KC_LBRC):
             if (use_pseudo_us_keymap) {
                 static uint16_t kc;
+                uint8_t mod_state = get_mods();
                 if (record->event.pressed) {
-                    uint8_t mod_state = get_mods();
                     if (keycode == S(KC_LBRC) || mod_state & MOD_MASK_SHIFT) {
                         del_mods(MOD_MASK_SHIFT);
                         kc = JP_LCBR; // {
@@ -527,7 +553,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     set_mods(mod_state);
                     return false;
                 } else if (kc) {
+                    if (kc == JP_LCBR) {
+                        del_mods(MOD_MASK_SHIFT);
+                    }
                     unregister_code16(kc);
+                    set_mods(mod_state);
                     kc = 0;
                     return false;
                 }
@@ -537,8 +567,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case S(KC_RBRC):
             if (use_pseudo_us_keymap) {
                 static uint16_t kc;
+                uint8_t mod_state = get_mods();
                 if (record->event.pressed) {
-                    uint8_t mod_state = get_mods();
                     if (keycode == S(KC_RBRC) || mod_state & MOD_MASK_SHIFT) {
                         del_mods(MOD_MASK_SHIFT);
                         kc = JP_RCBR; // }
@@ -549,7 +579,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     set_mods(mod_state);
                     return false;
                 } else if (kc) {
+                    if (kc == JP_RCBR) {
+                        del_mods(MOD_MASK_SHIFT);
+                    }
                     unregister_code16(kc);
+                    set_mods(mod_state);
                     kc = 0;
                     return false;
                 }
@@ -559,8 +593,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (use_pseudo_us_keymap) {
                 if (record->tap.count) {
                     static uint16_t kc;
+                    uint8_t mod_state = get_mods();
                     if (record->event.pressed) {
-                        uint8_t mod_state = get_mods();
                         if (mod_state & MOD_MASK_SHIFT) {
                             del_mods(MOD_MASK_SHIFT);
                             kc = JP_DQUO;
@@ -571,7 +605,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                         set_mods(mod_state);
                         return false;
                     } else if (kc) {
+                        if (kc == JP_DQUO) {
+                            del_mods(MOD_MASK_SHIFT);
+                        }
                         unregister_code16(kc);
+                        set_mods(mod_state);
                         kc = 0;
                         return false;
                     }
