@@ -45,15 +45,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_BASE] = LAYOUT(
         KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,             KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
-        KC_A,    KC_S,    KC_D,    KC_F,  KC_G, LSFT_T(KC_TAB), KC_H,  KC_J,    KC_K,    KC_L,    RCTL_T(KC_MINS),
-        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,             KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_RSFT,
-        KC_LALT, LCTL_T(KC_DEL), LT(_NUMBER,KC_SPC), MS_BTN1, KC_BSPC, LT(_SYMBOL,KC_ENT), KC_LGUI
+        KC_A,    KC_S,    KC_D,    KC_F,  KC_G, RCTL_T(KC_TAB), KC_H,  KC_J,    KC_K,    KC_L,    RCTL_T(KC_MINS),
+        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,             KC_N,    KC_M,    KC_COMM, KC_DOT,  RSFT_T(KC_SLSH),
+        KC_LALT, RCTL_T(KC_DEL), LT(_NUMBER,KC_SPC), MS_BTN1, KC_BSPC, LT(_SYMBOL,KC_ENT), KC_LGUI
     ),
     [_NUMBER] = LAYOUT(
         KC_1,    KC_2,    KC_3,    KC_4,    KC_5,             KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
         KC_MINS, KC_EQL,  KC_GRV,  KC_LBRC, KC_RBRC, KC_ESC,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_SCLN,
-        KC_LSFT, XXXXXXX, KC_INS,  KC_HOME, KC_BSLS,          KC_QUOT, KC_END,  KC_COMM, KC_DOT,  RSFT_T(KC_SLSH),
-                          _______, _______, _______, MS_BTN2, IME_TGL, TT(_FUNC), _______
+        KC_RSFT, XXXXXXX, KC_INS,  KC_HOME, KC_BSLS,          KC_QUOT, KC_END,  KC_COMM, KC_DOT,  RSFT_T(KC_SLSH),
+                          _______, _______, _______, MS_BTN2, _______, TT(_FUNC), IME_TGL
     ),
     [_SYMBOL] = LAYOUT(
         S(KC_1), S(KC_2), S(KC_3), S(KC_4), S(KC_5),          S(KC_6), S(KC_7), S(KC_8), S(KC_9), S(KC_0),
@@ -266,12 +266,62 @@ uint32_t os_detect_callback(uint32_t trigger_time, void *cb_arg) {
 }
 #endif
 
+// refs https://zenn.dev/karbou12/articles/aa348dd847ec0c
+#ifdef VIAL_COMBO_ENABLE
+const uint16_t PROGMEM my_combo_vb[] = {KC_V, KC_B, COMBO_END};
+const uint16_t PROGMEM my_combo_nm[] = {KC_N, KC_M, COMBO_END};
+combo_t local_key_combos[] = {
+    COMBO(my_combo_vb, KC_RSFT),
+    COMBO(my_combo_nm, KC_RSFT),
+};
+const uint16_t local_combo_size = ARRAY_SIZE(local_key_combos);
+
+void load_local_combo(void) {
+    // if there are combo settings, do nothing
+    {
+        vial_combo_entry_t combo = {0};
+        if (dynamic_keymap_get_combo(0, &combo) < 0) {
+            return;
+        }
+
+        const vial_combo_entry_t init_combo = {0};
+        if (memcmp(&init_combo, &combo, sizeof(vial_combo_entry_t)) != 0) {
+            return;
+        }
+    }
+
+    extern combo_t key_combos[VIAL_COMBO_ENTRIES];
+    extern uint16_t key_combos_keys[VIAL_COMBO_ENTRIES][5];
+
+    for (size_t i = 0; i < local_combo_size; i++) {
+        vial_combo_entry_t entry = {0};
+        for (size_t j = 0; j < ARRAY_SIZE(entry.input); j++) {
+            entry.input[j] = local_key_combos[i].keys[j];
+            key_combos_keys[i][j] = local_key_combos[i].keys[j];
+            if (local_key_combos[i].keys[j] == COMBO_END) {
+                break;
+            }
+        }
+        entry.output = local_key_combos[i].keycode;
+        key_combos[i].keycode = local_key_combos[i].keycode;
+
+        // set combo to eeprom
+        if (dynamic_keymap_set_combo(i, &entry) < 0) {
+            break;
+        }
+    }
+}
+#endif // VIAL_COMBO_ENABLE
+
 void keyboard_post_init_user(void) {
 #ifdef CONSOLE_ENABLE
     debug_enable = true;
 #endif
 #if defined(OS_DETECTION_ENABLE) && defined(DEFERRED_EXEC_ENABLE)
     defer_exec(500, os_detect_callback, NULL);
+#endif
+#ifdef VIAL_COMBO_ENABLE
+    load_local_combo();
 #endif
 }
 
