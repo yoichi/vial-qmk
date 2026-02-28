@@ -471,7 +471,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                         del_mods(MOD_MASK_SHIFT);
                         kc = JP_DQUO; // "
                     } else {
-		      kc = JP_QUOT; // '
+                        kc = JP_QUOT; // '
                     }
                     register_code16(kc);
                     set_mods(mod_state);
@@ -497,7 +497,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                         del_mods(MOD_MASK_SHIFT);
                         kc = JP_TILD; // ~
                     } else {
-		        kc = JP_GRV; // `
+                        kc = JP_GRV; // `
                     }
                     register_code16(kc);
                     set_mods(mod_state);
@@ -597,7 +597,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                         del_mods(MOD_MASK_SHIFT);
                         kc = JP_LCBR; // {
                     } else {
-		      kc = JP_LBRC; // [
+                        kc = JP_LBRC; // [
                     }
                     register_code16(kc);
                     set_mods(mod_state);
@@ -623,7 +623,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                         del_mods(MOD_MASK_SHIFT);
                         kc = JP_RCBR; // }
                     } else {
-		      kc = JP_RBRC; // ]
+                        kc = JP_RBRC; // ]
                     }
                     register_code16(kc);
                     set_mods(mod_state);
