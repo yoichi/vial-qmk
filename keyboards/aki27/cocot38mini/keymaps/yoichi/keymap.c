@@ -449,15 +449,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_MINS:
         case S(KC_MINS):
             if (use_pseudo_us_keymap) {
-                uint8_t mod_state = get_mods();
-                if (keycode == S(KC_MINS) || mod_state & MOD_MASK_SHIFT) {
-                    uint16_t kc = JP_UNDS; // _
-                    if (record->event.pressed) {
-                        register_code16(kc);
-                    } else {
-                        unregister_code16(kc);
+                if (keycode != RCTL_T(KC_MINS) || record->tap.count) {
+                    uint8_t mod_state = get_mods();
+                    if (keycode == S(KC_MINS) || mod_state & MOD_MASK_SHIFT) {
+                        static uint16_t kc;
+                        if (record->event.pressed) {
+                            kc = JP_UNDS; // _
+                            register_code16(kc);
+                        } else if (kc) {
+                            unregister_code16(kc);
+                            kc = 0;
+                        }
+                        return false;
                     }
-                    return false;
                 }
             }
             break;
