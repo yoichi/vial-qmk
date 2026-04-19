@@ -647,33 +647,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             break;
-        case RALT_T(KC_QUOT):
-            if (use_pseudo_us_keymap) {
-                if (record->tap.count) {
-                    static uint16_t kc;
-                    uint8_t mod_state = get_mods();
-                    if (record->event.pressed) {
-                        if (mod_state & MOD_MASK_SHIFT) {
-                            del_mods(MOD_MASK_SHIFT);
-                            kc = JP_DQUO;
-                        } else {
-                            kc = JP_QUOT;
-                        }
-                        register_code16(kc);
-                        set_mods(mod_state);
-                        return false;
-                    } else if (kc) {
-                        if (kc == JP_DQUO) {
-                            del_mods(MOD_MASK_SHIFT);
-                        }
-                        unregister_code16(kc);
-                        set_mods(mod_state);
-                        kc = 0;
-                        return false;
-                    }
-                }
-            }
-            break;
 #if defined(OS_DETECTION_ENABLE) && defined(DEFERRED_EXEC_ENABLE)
         case KC_LALT:
             switch (host_os) {
