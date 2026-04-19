@@ -439,8 +439,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
 #else
         case LALT_T(KC_Z):
-            switch (host_os) {
-            case OS_WINDOWS:
+            if (host_os == OS_WINDOWS) {
                 if (!record->tap.count) { // hold
                     if (record->event.pressed) {
                         register_code16(KC_LGUI);
@@ -449,13 +448,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     }
                     return false;
                 }
-            default:
-                break;
             }
             break;
         case LGUI_T(KC_X):
-            switch (host_os) {
-            case OS_WINDOWS:
+            if (host_os == OS_WINDOWS) {
                 if (!record->tap.count) { // hold
                     if (record->event.pressed) {
                         register_code16(KC_LALT);
@@ -464,8 +460,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     }
                     return false;
                 }
-            default:
-                break;
             }
             break;
 #endif
