@@ -268,9 +268,13 @@ uint32_t os_detect_callback(uint32_t trigger_time, void *cb_arg) {
 
 // refs https://zenn.dev/karbou12/articles/aa348dd847ec0c
 #ifdef VIAL_COMBO_ENABLE
+const uint16_t PROGMEM my_combo_jk[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM my_combo_kl[] = {KC_K, KC_L, COMBO_END};
 const uint16_t PROGMEM my_combo_vb[] = {KC_V, KC_B, COMBO_END};
 const uint16_t PROGMEM my_combo_nm[] = {KC_N, KC_M, COMBO_END};
 combo_t local_key_combos[] = {
+    COMBO(my_combo_jk, MS_BTN1),
+    COMBO(my_combo_kl, MS_BTN2),
     COMBO(my_combo_vb, KC_RSFT),
     COMBO(my_combo_nm, KC_RSFT),
 };
