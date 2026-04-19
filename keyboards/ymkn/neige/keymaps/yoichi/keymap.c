@@ -12,36 +12,36 @@ enum layer_number {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-	[_BASE] = LAYOUT(
-		KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSPC,
-		LCTL_T(KC_SPC), KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_MINS, KC_ENT,
-KC_LSFT, LALT_T(KC_Z), LGUI_T(KC_X), LT(_NUMBER, KC_C), KC_V, KC_B, KC_N, LT(_SYMBOL, KC_M), KC_COMM, KC_DOT, KC_SLSH, KC_RSFT
-	),
-	[_NUMBER] = LAYOUT(
-		KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_DEL,
-		KC_QUOT, KC_MINS, KC_EQL, KC_GRV, KC_LBRC, KC_RBRC, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC_SCLN, KC_BSLS,
-		_______, KC_INT1, KC_INT3, _______, KC_HOME, KC_END, _______, TG(_FUNC), KC_COMM, KC_DOT, KC_SLSH, _______
-	),
-	[_SYMBOL] = LAYOUT(
-		S(KC_INS), S(KC_1), S(KC_2), S(KC_3), S(KC_4), S(KC_5), S(KC_6), S(KC_7), S(KC_8), S(KC_9), S(KC_0), KC_CAPS,
-S(KC_QUOT), S(KC_MINS), S(KC_EQL), S(KC_GRV), S(KC_LBRC), S(KC_RBRC), S(KC_LEFT), S(KC_DOWN), S(KC_UP), S(KC_RGHT), S(KC_SCLN), S(KC_BSLS),
-		_______, S(KC_INT1), S(KC_INT3), MO(_MEDIA), S(KC_HOME), S(KC_END), _______, _______, _______, _______, _______, _______
-	),
-	[_FUNC] = LAYOUT(
-		MO(_CONFIG), KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11,
-		_______, _______, _______, _______, _______, _______, MS_LEFT, MS_DOWN, MS_UP, MS_RGHT, _______, _______,
-		TG(_FUNC), _______, _______, _______, _______, _______, MS_BTN1, _______, MS_BTN2, _______, _______, TG(_FUNC)
-	),
-	[_MEDIA] = LAYOUT(
-		_______, G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5), G(KC_6), G(KC_7), G(KC_8), G(KC_9), KC_BRIU, KC_VOLU,
-		_______, _______, _______, _______, _______, _______, C(KC_LEFT), C(KC_DOWN), C(KC_UP), C(KC_RGHT), KC_BRID, KC_VOLD,
-		_______, _______, _______, _______, _______, _______, LCA(KC_LEFT), LCA(KC_DOWN), LCA(KC_UP), LCA(KC_RGHT), _______, KC_MUTE
-	),
-	[_CONFIG] = LAYOUT(
-		_______, QK_USER_0, _______, _______, _______, _______, _______, _______, _______, _______, _______, EE_CLR,
-		QK_BOOT, _______, _______, DB_TOGG, _______, _______, _______, _______, _______, _______, _______, _______,
-		_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-	)
+    [_BASE] = LAYOUT(
+         KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSPC,
+  CTL_T(KC_SPC),    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L, KC_MINS,  KC_ENT,
+KC_LSFT,ALT_T(KC_Z),GUI_T(KC_X),LT(_NUMBER,KC_C), KC_V, KC_B, KC_N, LT(_SYMBOL, KC_M), KC_COMM, KC_DOT, KC_SLSH, KC_RSFT
+    ),
+    [_NUMBER] = LAYOUT(
+         KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_DEL,
+        KC_QUOT, KC_MINS,  KC_EQL,  KC_GRV, KC_LBRC, KC_RBRC, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, KC_SCLN, KC_BSLS,
+        _______, KC_INT1, KC_INT3, _______, KC_HOME,  KC_END, _______,TG(_FUNC),KC_COMM,  KC_DOT, KC_SLSH, _______
+    ),
+    [_SYMBOL] = LAYOUT(
+      S(KC_INS), S(KC_1), S(KC_2), S(KC_3), S(KC_4), S(KC_5), S(KC_6), S(KC_7), S(KC_8), S(KC_9), S(KC_0), KC_CAPS,
+S(KC_QUOT),S(KC_MINS),S(KC_EQL),S(KC_GRV),S(KC_LBRC),S(KC_RBRC), S(KC_LEFT), S(KC_DOWN), S(KC_UP), S(KC_RGHT), S(KC_SCLN), S(KC_BSLS),
+_______,S(KC_INT1),S(KC_INT3),MO(_MEDIA),S(KC_HOME),S(KC_END), _______, _______, _______, _______, _______, _______
+    ),
+    [_FUNC] = LAYOUT(
+    MO(_CONFIG),   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
+        _______, _______, _______, _______, _______, _______, MS_LEFT, MS_DOWN, MS_UP, MS_RGHT, _______, _______,
+      TG(_FUNC), _______, _______, _______, _______, _______, MS_BTN1, _______, MS_BTN2, _______, _______, TG(_FUNC)
+    ),
+    [_MEDIA] = LAYOUT(
+        _______, G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5), G(KC_6), G(KC_7), G(KC_8), G(KC_9), KC_BRIU, KC_VOLU,
+        _______, _______, _______, _______, _______, _______, C(KC_LEFT), C(KC_DOWN), C(KC_UP), C(KC_RGHT), KC_BRID, KC_VOLD,
+        _______, _______, _______, _______, _______, _______, LCA(KC_LEFT), LCA(KC_DOWN), LCA(KC_UP), LCA(KC_RGHT), _______, KC_MUTE
+    ),
+    [_CONFIG] = LAYOUT(
+      _______, QK_USER_0, _______, _______, _______, _______, _______, _______, _______, _______, _______, EE_CLR,
+        QK_BOOT, _______, _______, DB_TOGG, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    )
 };
 
 static bool use_pseudo_us_keymap = false;
@@ -394,7 +394,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 #if defined(OS_DETECTION_ENABLE)
-        case LCTL_T(KC_SPC):
+        case CTL_T(KC_SPC):
             if (host_os == OS_WINDOWS) {
                 uint8_t mod_state = get_mods();
                 if (record->tap.count && mod_state & MOD_MASK_ALT && record->event.pressed) {
@@ -409,7 +409,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     return false;
                 }
             }
-            break;	    
+            break;
 #if 0
         case KC_LALT:
             switch (host_os) {
@@ -438,7 +438,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 #else
-        case LALT_T(KC_Z):
+        case ALT_T(KC_Z):
             if (host_os == OS_WINDOWS) {
                 if (!record->tap.count) { // hold
                     if (record->event.pressed) {
@@ -450,7 +450,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             break;
-        case LGUI_T(KC_X):
+        case GUI_T(KC_X):
             if (host_os == OS_WINDOWS) {
                 if (!record->tap.count) { // hold
                     if (record->event.pressed) {
