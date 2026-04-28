@@ -410,34 +410,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             break;
-#if 0
-        case KC_LALT:
-            switch (host_os) {
-            case OS_WINDOWS:
-                if (record->event.pressed) {
-                    register_code16(KC_LGUI);
-                } else {
-                    unregister_code16(KC_LGUI);
-                }
-                return false;
-            default:
-                break;
-            }
-            break;
-        case KC_LGUI:
-            switch (host_os) {
-            case OS_WINDOWS:
-                if (record->event.pressed) {
-                    register_code16(KC_LALT);
-                } else {
-                    unregister_code16(KC_LALT);
-                }
-                return false;
-            default:
-                break;
-            }
-            break;
-#else
         case ALT_T(KC_Q):
             if (host_os == OS_WINDOWS) {
                 if (!record->tap.count) { // hold
@@ -450,7 +422,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             break;
-    case GUI_T(KC_X):
+        case GUI_T(KC_X):
             if (host_os == OS_WINDOWS) {
                 if (!record->tap.count) { // hold
                     if (record->event.pressed) {
@@ -462,7 +434,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             break;
-#endif
         case LCA(KC_LEFT):
         case LCA(KC_DOWN):
         case LCA(KC_UP):
