@@ -63,6 +63,8 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
 }
 #endif
 
+void register_mouse(uint8_t mouse_keycode, bool pressed);
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef CONSOLE_ENABLE
     uprintf("process_record_user: 0x%04x\n", keycode);
@@ -467,6 +469,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             default:
                 break;
+            }
+            break;
+        case MS_WHLD:
+            if (host_os != OS_WINDOWS) {
+                register_mouse(MS_WHLU, record->event.pressed);
+                return false;
+            }
+            break;
+        case MS_WHLU:
+            if (host_os != OS_WINDOWS) {
+                register_mouse(MS_WHLD, record->event.pressed);
+                return false;
+            }
+            break;
+        case MS_WHLL:
+            if (host_os != OS_WINDOWS) {
+                register_mouse(MS_WHLR, record->event.pressed);
+                return false;
+            }
+            break;
+        case MS_WHLR:
+            if (host_os != OS_WINDOWS) {
+                register_mouse(MS_WHLL, record->event.pressed);
+                return false;
             }
             break;
 #endif
