@@ -33,8 +33,8 @@ _______,S(KC_INT1),S(KC_INT3),MO(_MEDIA),S(KC_HOME),S(KC_END), _______, _______,
     ),
     [_FUNC] = LAYOUT(
       TG(_FUNC),   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
-        _______, _______, _______, _______, _______, MS_WHLL, MS_LEFT, MS_DOWN,   MS_UP, MS_RGHT, MS_WHLR, _______,
-  TG(_FUNC), _______, _______, MO(_CONFIG), _______, _______, MS_BTN1,  MS_RST, MS_BTN2, MS_WHLD, MS_WHLU, TG(_FUNC)
+        _______, _______, _______, _______, _______, MS_WHLL, MS_LEFT, MS_DOWN,   MS_UP, MS_RGHT, MS_WHLR,  MS_RST,
+  TG(_FUNC), _______, _______, MO(_CONFIG), _______, MS_WHLD, MS_BTN1, _______, MS_BTN2, MS_WHLU, _______, TG(_FUNC)
     ),
     [_MEDIA] = LAYOUT(
         _______, G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5), G(KC_6), G(KC_7), G(KC_8), G(KC_9), KC_BRIU, KC_VOLU,
