@@ -11,6 +11,10 @@ enum layer_number {
     _CONFIG = 5,
 };
 
+enum custom_user_keycodes {
+    MS_RST = QK_USER_0,
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT(
         KC_TAB, ALT_T(KC_Q), KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSPC,
@@ -30,7 +34,7 @@ _______,S(KC_INT1),S(KC_INT3),MO(_MEDIA),S(KC_HOME),S(KC_END), _______, _______,
     [_FUNC] = LAYOUT(
       TG(_FUNC),   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
         _______, _______, _______, _______, _______, MS_WHLL, MS_LEFT, MS_DOWN,   MS_UP, MS_RGHT, MS_WHLR, _______,
-  TG(_FUNC), _______, _______, MO(_CONFIG), _______, _______, MS_BTN1, _______, MS_BTN2, MS_WHLD, MS_WHLU, TG(_FUNC)
+  TG(_FUNC), _______, _______, MO(_CONFIG), _______, _______, MS_BTN1,  MS_RST, MS_BTN2, MS_WHLD, MS_WHLU, TG(_FUNC)
     ),
     [_MEDIA] = LAYOUT(
         _______, G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5), G(KC_6), G(KC_7), G(KC_8), G(KC_9), KC_BRIU, KC_VOLU,
@@ -38,7 +42,7 @@ _______,S(KC_INT1),S(KC_INT3),MO(_MEDIA),S(KC_HOME),S(KC_END), _______, _______,
         _______, _______, _______, _______, _______, _______, LCA(KC_LEFT), LCA(KC_DOWN), LCA(KC_UP), LCA(KC_RGHT), _______, KC_MUTE
     ),
     [_CONFIG] = LAYOUT(
-      _______, QK_USER_0, _______, _______, _______, _______, _______, _______, _______, _______, _______, EE_CLR,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, EE_CLR,
         QK_BOOT, _______, _______, DB_TOGG, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     )
@@ -50,11 +54,13 @@ static os_variant_t host_os;
 bool process_detected_host_os_user(os_variant_t detected_os) {
     switch (detected_os) {
         case OS_MACOS:
+            uprintf("detected_os = %d -> OS_MACOS\n", detected_os);
             host_os = OS_MACOS;
             use_pseudo_us_keymap = false;
             break;
         case OS_WINDOWS:
         default:
+            uprintf("detected_os = %d -> OS_WINDOWS\n", detected_os);
             host_os = OS_WINDOWS;
             use_pseudo_us_keymap = true;
             break;
@@ -70,21 +76,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     uprintf("process_record_user: 0x%04x\n", keycode);
 #endif
     switch (keycode) {
-        case QK_USER_0:
-            if (host_os == OS_MACOS) {
-                if (record->event.pressed) {
-                    register_code16(KC_M);
-                } else {
-                    unregister_code16(KC_M);
-                }
-            } else {
-                if (record->event.pressed) {
-                    register_code16(KC_W);
-                } else {
-                    unregister_code16(KC_W);
-                }
-            }
-            return false;
         case KC_CAPS:
             if (use_pseudo_us_keymap) {
                 uint16_t kc = JP_CAPS; // (CapsLock)
@@ -495,7 +486,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             break;
-#endif
+#endif /* OS_DETECTION_ENABLE */
+#ifdef DIGITIZER_ENABLE
+        case MS_RST:
+            if (record->event.pressed) {
+                digitizer_in_range_on();
+                digitizer_set_position(0.5, 0.5);
+                digitizer_in_range_off();
+                return false;
+            }
+            break;
+#endif /* DIGITIZER_ENABLE */
         default:
             break;
     }
