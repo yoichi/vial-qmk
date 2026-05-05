@@ -49,6 +49,7 @@ _______,S(KC_INT1),S(KC_INT3),MO(_MEDIA),S(KC_HOME),S(KC_END), _______, _______,
 };
 
 static bool use_pseudo_us_keymap = false;
+static bool reverse_wheel_direction = true;
 #if defined(OS_DETECTION_ENABLE)
 static os_variant_t host_os;
 bool process_detected_host_os_user(os_variant_t detected_os) {
@@ -57,12 +58,14 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
             uprintf("detected_os = %d -> OS_MACOS\n", detected_os);
             host_os = OS_MACOS;
             use_pseudo_us_keymap = false;
+            reverse_wheel_direction = true;
             break;
         case OS_WINDOWS:
         default:
             uprintf("detected_os = %d -> OS_WINDOWS\n", detected_os);
             host_os = OS_WINDOWS;
             use_pseudo_us_keymap = true;
+            reverse_wheel_direction = false;
             break;
     }
     return 0;
@@ -462,31 +465,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 break;
             }
             break;
+#endif /* OS_DETECTION_ENABLE */
         case MS_WHLD:
-            if (host_os != OS_WINDOWS) {
+            if (reverse_wheel_direction) {
                 register_mouse(MS_WHLU, record->event.pressed);
                 return false;
             }
             break;
         case MS_WHLU:
-            if (host_os != OS_WINDOWS) {
+            if (reverse_wheel_direction) {
                 register_mouse(MS_WHLD, record->event.pressed);
                 return false;
             }
             break;
         case MS_WHLL:
-            if (host_os != OS_WINDOWS) {
+            if (reverse_wheel_direction) {
                 register_mouse(MS_WHLR, record->event.pressed);
                 return false;
             }
             break;
         case MS_WHLR:
-            if (host_os != OS_WINDOWS) {
+            if (reverse_wheel_direction) {
                 register_mouse(MS_WHLL, record->event.pressed);
                 return false;
             }
             break;
-#endif /* OS_DETECTION_ENABLE */
 #ifdef DIGITIZER_ENABLE
         case MS_RST:
             if (record->event.pressed) {
