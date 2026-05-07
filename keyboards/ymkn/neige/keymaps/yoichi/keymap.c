@@ -13,6 +13,7 @@ enum layer_number {
 
 enum custom_user_keycodes {
     MS_RST = QK_USER_0,
+    IME_TGL = QK_USER_1,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -27,9 +28,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_INT1, KC_INT3, _______, KC_HOME,  KC_END,C(KC_SPC),TG(_FUNC),KC_COMM, KC_DOT, KC_SLSH, _______
     ),
     [_SYMBOL] = LAYOUT(
-      S(KC_INS), S(KC_1), S(KC_2), S(KC_3), S(KC_4), S(KC_5), S(KC_6), S(KC_7), S(KC_8), S(KC_9), S(KC_0), KC_CAPS,
+      S(KC_INS), S(KC_1), S(KC_2), S(KC_3), S(KC_4), S(KC_5), S(KC_6), S(KC_7), S(KC_8), S(KC_9), S(KC_0), IME_TGL,
 S(KC_QUOT),S(KC_MINS),S(KC_EQL),S(KC_GRV),S(KC_LBRC),S(KC_RBRC), S(KC_LEFT), S(KC_DOWN), S(KC_UP), S(KC_RGHT), S(KC_SCLN), S(KC_BSLS),
-_______,S(KC_INT1),S(KC_INT3),MO(_MEDIA),S(KC_HOME),S(KC_END), _______, _______, _______, _______, _______, _______
+_______,S(KC_INT1),S(KC_INT3),MO(_MEDIA),S(KC_HOME),S(KC_END), _______, _______, _______, _______, KC_CAPS, _______
     ),
     [_FUNC] = LAYOUT(
       TG(_FUNC),   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
@@ -390,6 +391,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 #if defined(OS_DETECTION_ENABLE)
+        case IME_TGL:
+            if (host_os == OS_WINDOWS) {
+                if (record->event.pressed) {
+                    if (use_pseudo_us_keymap) {
+                        tap_code16(JP_ZKHK);
+                    } else {
+                        register_code16(KC_RALT);
+                        wait_ms(10);
+                        tap_code16(KC_GRV);
+                        unregister_code16(KC_RALT);
+                    }
+                }
+                return false;
+            } else {
+                if (record->event.pressed) {
+                    register_code16(KC_LGUI);
+                    wait_ms(10);
+                    tap_code16(KC_SPC);
+                    unregister_code16(KC_LGUI);
+                }
+                return false;
+            }
+            break;
         case CTL_T(KC_SPC):
             if (host_os == OS_WINDOWS) {
                 uint8_t mod_state = get_mods();
