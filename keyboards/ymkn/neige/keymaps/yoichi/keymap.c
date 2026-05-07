@@ -38,7 +38,7 @@ _______,S(KC_INT1),S(KC_INT3),MO(_MEDIA),S(KC_HOME),S(KC_END), _______, _______,
     ),
     [_MEDIA] = LAYOUT(
         _______, G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5), G(KC_6), G(KC_7), G(KC_8), G(KC_9), KC_BRIU, KC_VOLU,
-        _______, _______, _______, _______, _______, _______, C(KC_LEFT), C(KC_DOWN), C(KC_UP), C(KC_RGHT), KC_BRID, KC_VOLD,
+        _______,_______,_______,S(G(KC_4)), _______, _______, C(KC_LEFT), C(KC_DOWN), C(KC_UP), C(KC_RGHT), KC_BRID, KC_VOLD,
         _______, _______, _______, _______, _______, _______, LCA(KC_LEFT), LCA(KC_DOWN), LCA(KC_UP), LCA(KC_RGHT), _______, KC_MUTE
     ),
     [_CONFIG] = LAYOUT(
@@ -404,6 +404,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     }
                     return false;
                 }
+            }
+            break;
+        case S(G(KC_4)): // screen capture
+            if (host_os == OS_WINDOWS) {
+                uint16_t kc = S(G(KC_S));
+                if (record->event.pressed) {
+                    register_code16(kc);
+                } else {
+                    unregister_code16(kc);
+                }
+                return false;
             }
             break;
         case ALT_T(KC_Q):
