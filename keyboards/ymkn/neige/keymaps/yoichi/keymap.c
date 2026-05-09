@@ -39,7 +39,7 @@ _______,S(KC_INT1),S(KC_INT3),MO(_MEDIA),S(KC_HOME),S(KC_END), _______, _______,
     ),
     [_MEDIA] = LAYOUT(
         _______, G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5), G(KC_6), G(KC_7), G(KC_8), G(KC_9), KC_BRIU, KC_VOLU,
-        _______,_______,_______,S(G(KC_4)), _______, _______, C(KC_LEFT), C(KC_DOWN), C(KC_UP), C(KC_RGHT), KC_BRID, KC_VOLD,
+_______,LCA(KC_DEL),LCA(KC_HOME),S(G(KC_4)),_______, _______, C(KC_LEFT), C(KC_DOWN), C(KC_UP), C(KC_RGHT), KC_BRID, KC_VOLD,
         _______, _______, _______, _______, _______, _______, LCA(KC_LEFT), LCA(KC_DOWN), LCA(KC_UP), LCA(KC_RGHT), _______, KC_MUTE
     ),
     [_CONFIG] = LAYOUT(
