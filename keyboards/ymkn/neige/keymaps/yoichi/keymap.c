@@ -525,16 +525,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             break;
-#ifdef DIGITIZER_ENABLE
         case MS_RST:
             if (record->event.pressed) {
+#ifdef DIGITIZER_ENABLE
                 digitizer_in_range_on();
                 digitizer_set_position(0.5, 0.5);
                 digitizer_in_range_off();
+#else /* DIGITIZER_ENABLE */
+                report_mouse_t mouse_report = {};
+                mouse_report.x = MOUSE_REPORT_XY_MIN;
+                mouse_report.y = MOUSE_REPORT_XY_MIN;
+                for (int i = 0; i < 100; i++) {
+                    host_mouse_send(&mouse_report);
+                }
+#endif /* DIGITIZER_ENABLE */
                 return false;
             }
             break;
-#endif /* DIGITIZER_ENABLE */
         default:
             break;
     }
