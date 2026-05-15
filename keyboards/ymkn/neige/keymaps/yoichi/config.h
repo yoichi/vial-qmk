@@ -6,5 +6,4 @@
 #define VIAL_UNLOCK_COMBO_ROWS { 0, 1 }
 #define VIAL_UNLOCK_COMBO_COLS { 0, 11 }
 
-#define MK_3_SPEED
-#define MK_MOMENTARY_ACCEL
+#define MOUSEKEY_MAX_SPEED 4
